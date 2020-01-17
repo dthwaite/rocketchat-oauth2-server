@@ -1,5 +1,5 @@
 Package.describe({
-	name: 'rocketchat:oauth2-server',
+	name: 'dthwaite:oauth2-server',
 	version: '2.1.0',
 	summary: 'OAuth 2 Server package',
 	git: 'https://github.com/RocketChat/rocketchat-oauth2-server.git'
