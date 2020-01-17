@@ -18,6 +18,7 @@ class OAuth2Server
 			grants: ['authorization_code', 'refresh_token']
 			debug: @config.debug
 
+
 		@publishAuhorizedClients()
 		@initRoutes()
 
@@ -55,6 +56,8 @@ class OAuth2Server
 				req.body = Object.assign {}, req.body, req.query
 			next()
 
+		@app.use self.config.bodyParser
+
 		@app.all '/oauth/token', debugMiddleware, transformRequestsNotUsingFormUrlencodedType, @oauth.grant()
 
 		@app.get '/oauth/authorize', debugMiddleware, Meteor.bindEnvironment (req, res, next) ->
@@ -91,4 +94,4 @@ class OAuth2Server
 
 		@app.use @routes
 
-		@app.all '/oauth/*', @oauth.errorHandler()
+		@app.use @oauth.errorHandler()
