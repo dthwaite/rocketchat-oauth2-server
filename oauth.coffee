@@ -61,7 +61,7 @@ class OAuth2Server
 		@app.all '/oauth/token', debugMiddleware, transformRequestsNotUsingFormUrlencodedType, @oauth.grant()
 
 		@app.get '/oauth/authorize', debugMiddleware, Meteor.bindEnvironment (req, res, next) ->
-			client = self.model.Clients.findOne({ active: true, clientId: req.query.client_id })
+			client = await self.model.Clients.findOneAsync({ active: true, clientId: req.query.client_id })
 			if not client?
 				return res.redirect '/oauth/error/404'
 
@@ -74,7 +74,7 @@ class OAuth2Server
 			if not req.body.token?
 				return res.sendStatus(401).send('No token')
 
-			user = Meteor.users.findOne
+			user = await Meteor.users.findOneAsync
 				'services.resume.loginTokens.hashedToken': Accounts._hashLoginToken req.body.token
 
 			if not user?
@@ -88,7 +88,7 @@ class OAuth2Server
 
 		@app.post '/oauth/authorize', debugMiddleware, @oauth.authCodeGrant (req, next) ->
 			if req.body.allow is 'yes'
-				Meteor.users.update req.user.id, {$addToSet: {'oauth.authorizedClients': @clientId}}
+				await Meteor.users.updateAsync req.user.id, {$addToSet: {'oauth.authorizedClients': @clientId}}
 
 			next(null, req.body.allow is 'yes', req.user)
 

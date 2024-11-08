@@ -6,9 +6,9 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-	api.versionsFrom('1.0');
+	api.versionsFrom('1.0','2.0','3.0');
 
-	api.use('coffeescript');
+	api.use('coffeescript@1.0.4 || 2.4.1');
 
 	api.addFiles('model.coffee', 'server');
 	api.addFiles('oauth.coffee', 'server');

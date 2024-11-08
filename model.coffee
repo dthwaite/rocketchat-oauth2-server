@@ -24,7 +24,7 @@ debug = undefined
 			console.log '[OAuth2Server]', 'in getAccessToken (bearerToken:', bearerToken, ')'
 
 		try
-			token = AccessTokens.findOne accessToken: bearerToken
+			token = await AccessTokens.findOneAsync accessToken: bearerToken
 			callback null, token
 		catch e
 			callback e
@@ -36,9 +36,9 @@ debug = undefined
 
 		try
 			if not clientSecret?
-				client = Clients.findOne { active: true, clientId: clientId }
+				client = await Clients.findOneAsync { active: true, clientId: clientId }
 			else
-				client = Clients.findOne { active: true, clientId: clientId, clientSecret: clientSecret }
+				client = await Clients.findOneAsync { active: true, clientId: clientId, clientSecret: clientSecret }
 			callback null, client
 		catch e
 			callback e
@@ -56,7 +56,7 @@ debug = undefined
 			console.log '[OAuth2Server]', 'in saveAccessToken (token:', token, ', clientId:', clientId, ', user:', user, ', expires:', expires, ')'
 
 		try
-			tokenId = AccessTokens.insert
+			tokenId = await AccessTokens.insertAsync
 				accessToken: token
 				clientId: clientId
 				userId: user.id
@@ -101,7 +101,7 @@ debug = undefined
 			console.log '[OAuth2Server]', 'in saveRefreshToken (token:', token, ', clientId:', clientId, ', user:', user, ', expires:', expires, ')'
 
 		try
-			tokenId = RefreshTokens.insert
+			tokenId = await RefreshTokens.insertAsync
 				refreshToken: token
 				clientId: clientId
 				userId: user.id
@@ -117,7 +117,7 @@ debug = undefined
 			console.log '[OAuth2Server]', 'in getRefreshToken (refreshToken: ' + refreshToken + ')'
 
 		try
-			token = RefreshTokens.findOne refreshToken: refreshToken
+			token = await RefreshTokens.findOneAsync refreshToken: refreshToken
 			callback null, token
 		catch e
 			callback e
