@@ -18,7 +18,6 @@ class OAuth2Server
 			grants: ['authorization_code', 'refresh_token']
 			debug: @config.debug
 
-
 		@publishAuhorizedClients()
 		@initRoutes()
 
