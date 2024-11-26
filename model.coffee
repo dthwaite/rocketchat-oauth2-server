@@ -72,7 +72,7 @@ debug = undefined
 			console.log '[OAuth2Server]', 'in getAuthCode (authCode: ' + authCode + ')'
 
 		try
-			code = AuthCodes.findOne authCode: authCode
+			code = await AuthCodes.findOneAsync authCode: authCode
 			callback null, code
 		catch e
 			callback e
@@ -83,7 +83,7 @@ debug = undefined
 			console.log '[OAuth2Server]', 'in saveAuthCode (code:', code, ', clientId:', clientId, ', expires:', expires, ', user:', user, ')'
 
 		try
-			codeId = AuthCodes.upsert
+			codeId = await AuthCodes.upsertAsync
 				authCode: code
 			,
 				authCode: code
